@@ -1,22 +1,74 @@
 library(shiny)
-library(RH2)
-library(RSQLite)
-source('predict.R')
+library(ANLP)
 
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
-  # input$text and input$action are available
-  # output$sentence and output$predicted should be made available
-  db <- dbConnect(SQLite(), dbname="train.db")
-  dbout <- reactive({ngram_backoff(input$text, db)})
+modelsList = readRDS("modelsList.RDS")
+isReady <- T
+
+shinyServer(function(input, output, session) {
   
-  output$sentence <- renderText({input$text})
-  output$predicted <- renderText({
-    out <- dbout()
-    if (out[[1]] == "Sorry! You've stumped me, I don't know what would come next.") {
-      return(out)
-    } else {
-      return(unlist(out)[1])
-    }})
-  output$alts <- renderTable({dbout()})
+  
+  observe({
+    
+    text <- reactive({input$text})
+    
+    predictions <- predict_Backoff(text(),modelsList)
+    a1 <<- predictions[1]
+    a2 <<- predictions[2]
+    a3 <<- predictions[3]
+    
+    output$prediction1 <- renderUI({
+      actionButton("button1", label = a1)
+     
+    })
+    
+    
+    output$prediction2 <- renderUI({
+      actionButton("button2", label = a2)
+      
+    })
+    
+    
+    
+    output$prediction3 <- renderUI({
+      actionButton("button3", label = a3)
+      
+    })
+    
+    
+    
+    
+  })
+  
+  observeEvent(input$button1, {
+    if(input$button1 == 1){
+      name <- paste(input$text, a1)
+      updateTextInput(session, "text", value=name)
+    }
+    
+  })
+  
+  observeEvent(input$button2, {
+    
+    name <- paste(input$text, a2)
+    updateTextInput(session, "text", value=name)
+  })
+  
+  observeEvent(input$button3, {
+    
+    name <- paste(input$text, a3)
+    updateTextInput(session, "text", value=name)
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 })
