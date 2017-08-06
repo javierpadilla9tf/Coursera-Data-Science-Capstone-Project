@@ -1,42 +1,51 @@
 library(shiny)
-library(RH2)
+library(shinythemes)
+library(wordcloud)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("N-Gram Word Predictor"),
-  h4("Javier Padilla- John Hopkins Coursera Data Science Capstone", style="color:gray"),
-  hr(),
-  
-  fluidRow(width=2,
-           p("Enter a sentence, hit enter (or press the 'Predict next' button), and see what the 
-             algorithm thinks will come next!"),
-           p("The underlying model is an",
-             a(href="http://en.wikipedia.org/wiki/N-gram", "n-gram"),
-             "model, with quadgrams from a dataset of Twitter, news articles, 
-             and blog posts. It uses 'Stupid Backoff'",
-             a(href="http://www.cs.columbia.edu/~smaskey/CS6998-0412/supportmaterial/langmodel_mapreduce.pdf", 
-               "(Brants et al 2007)"), "to deal with unseen n-grams.")),
-  hr(),
-  
-  # Sidebar with a slider input for the number of bins
-  sidebarLayout(
-    sidebarPanel(
-      textInput("text", label = h3("Input"), value = "happy birthday to"),
-      helpText("Type in a sentence above, hit enter (or press the button below), and the results will display to the right."),
-      submitButton("Predict next"),
-      hr()
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-      br(),
-      h2(textOutput("sentence"), align="center"),
-      h1(textOutput("predicted"), align="center", style="color:blue"),
-      hr(),
-      h3("Top 5 Possibilities:", align="center"),
-      div(tableOutput("alts"), align="center")
-    )
-  )
-  ))
+
+shinyUI(navbarPage("Coursera Datascience Capstone: Next word prediction model",
+                   theme = shinytheme("cosmo"),
+                   
+                   
+                   
+                   tabPanel(HTML("Application</a></li><li><a href=\'https://github.com/javierpadilla9tf/Coursera-Data-Science-Capstone-Project'>Github</a></li>"),
+                            
+                            fluidRow(
+                              column(3),
+                              column(6,
+                                     tags$head(
+                                       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+                                     ),
+                                     tags$div(
+                                       #HTML('<textarea width="60%" id="text" rows="3" cols="30" class="form-control"></textarea>'),
+                                       h3("Enter your text here"),
+                                       tags$textarea(id = 'text', placeholder = 'Type here', rows = 3, class='form-control',""),
+                                       
+                                       
+                                       HTML('<script type="text/javascript"> 
+                                            document.getElementById("text").focus();
+                                            </script>'),
+                                       
+                                       HTML("<div id='buttons'>"),
+                                       uiOutput("prediction1",inline = T),
+                                       uiOutput("prediction2",inline = T),
+                                       uiOutput("prediction3",inline = T)),
+                                     HTML("</div>"),align="center"),
+                              
+                              
+                              column(3)
+                              )),
+                   
+                   
+                   hr(),
+                   
+                   
+                   tags$span(style="color:blue", 
+                             
+                             tags$footer("2017-", 
+                                         tags$a(
+                                           target="_blank",
+                                           "Javier Padilla Jr"), 
+                                         align = "Center"))
+                   
+                   ))
