@@ -1,16 +1,16 @@
 John Hopkins Coursera: Data Science Capstone Presentation
 ========================================================
 author: Javier Padilla
-date: 3/5/2017
+date: 8/9/2017
 autosize: true
 
 Overview
 ========================================================
 
-If you have not tried the app, go [here](http://127.0.0.1:5538/) to try it!
+If you have not tried the app, go [here](https://javi9tf.shinyapps.io/Capstone/) to try it!
 
 - Predicts next word
-- Shows you top 5 other possibilities
+- Shows you top 3 other possibilities
 - Can be used to string together continuous, sensible sentences (even with the limited amount of data it's using now)
 
 How To Use the App
